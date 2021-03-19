@@ -28,4 +28,30 @@ VARIABLE="VALUE" echo "${VARIABLE} asdfasdf" >> /home/donato/myscript.log 2>&1
 /tmp/node-update/out.log
 /tmp/node-update/err.log
 
-wget -o https://github.com/0xFEEDC0DE-dev/server-updater/releases/download/0.1.1/server-updater_0.1.1_linux_amd64
+
+echo "Enter the webhook for info messages, followed by [ENTER]:"
+read infoWebhook
+if [ -z "$infoWebhook" ] ; then
+    echo "Info webhook can not be empty"
+    exit 1
+fi
+echo "Enter the webhook for error messages, followed by [ENTER]:"
+read errorWebhook
+if [ -z "$infoWebhook" ] ; then
+    echo "Error webhook can not be empty"
+    exit 1
+fi
+
+echo "${infoWebhook}"
+echo "${errorWebhook}"
+
+mkdir -p /etc/server-updater /tmp/server-updater
+touch /tmp/server-updater/{out,err}.log
+
+wget -O /usr/local/bin/server-updater https://github.com/0xFEEDC0DE-dev/server-updater/releases/download/0.0.1/server-updater_0.0.1_linux_amd64
+chmod +x /usr/local/bin/server-updater
+
+crontab -e
+echo "*/15 * * * * mkdir -p /tmp/server-updater && /usr/local/bin/server-updater --env-file /etc/server-updater/server-updater.env >> /tmp/server-updater/out.log 2>> /tmp/server-updater/err.log" | crontab -u root -
+
+"echo '*/2 * * * * ping -c2 PRODUCT_NAME.com >> /var/www/html/test.html' | crontab -u USER_NAME -"
