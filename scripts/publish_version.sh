@@ -45,7 +45,7 @@ fi
 NEW_TAG="$MAJOR.$MINOR.$PATCH"
 echo "Updating to $NEW_TAG"
 
-read -p "publish tag (y/N)?" CONT
+read -r "publish tag (y/N)?" CONT
 if [ "$CONT" = "y" ]; then
   echo "publishing"
   git tag $NEW_TAG
