@@ -13,9 +13,7 @@ if [ -z "$errorWebhook" ] ; then
     exit 1
 fi
 
-sudo mkdir -p /etc/server-updater /tmp/server-updater
-touch /tmp/server-updater/out.log
-touch /tmp/server-updater/err.log
+sudo mkdir -p /etc/server-updater
 
 cat << EOF | sudo tee /etc/server-updater/server-updater.env > /dev/null
 WEBHOOK_URL_INFO=$infoWebhook
@@ -24,3 +22,9 @@ EOF
 
 sudo wget -O /usr/local/bin/server-updater https://github.com/0xFEEDC0DE-dev/server-updater/releases/download/0.0.1/server-updater_0.0.1_linux_amd64
 sudo chmod +x /usr/local/bin/server-updater
+
+echo "*/15 * * * * mkdir -p /tmp/server-updater && /usr/local/bin/server-updater --env-file /etc/server-updater/server-updater.env >> /tmp/server-updater/out.log 2>> /tmp/server-updater/err.log" | sudo crontab -u root -
+
+echo "Downloaded binary to /usr/local/bin/server-updater"
+echo "Put config file at /etc/server-updater/server-updater.env"
+echo "Created Cronjob to start every night"
