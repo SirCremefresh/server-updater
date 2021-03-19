@@ -10,7 +10,7 @@ EOF
 sudo wget -O /usr/local/bin/server-updater https://github.com/0xFEEDC0DE-dev/server-updater/releases/download/0.0.1/server-updater_0.0.1_linux_amd64
 sudo chmod +x /usr/local/bin/server-updater
 
-echo "*/15 * * * * mkdir -p /tmp/server-updater && /usr/local/bin/server-updater --env-file /etc/server-updater/server-updater.env >> /tmp/server-updater/out.log 2>> /tmp/server-updater/err.log" | sudo crontab -u root -
+echo "0 2 * * * mkdir -p /tmp/server-updater && /usr/local/bin/server-updater --env-file /etc/server-updater/server-updater.env >> /tmp/server-updater/out.log 2>> /tmp/server-updater/err.log" | sudo crontab -u root -
 
 echo "Downloaded binary to /usr/local/bin/server-updater"
 echo "Put config file at /etc/server-updater/server-updater.env"
