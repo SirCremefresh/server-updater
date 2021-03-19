@@ -1,24 +1,10 @@
 #!/usr/bin/env sh
 
-echo "Enter the webhook for info messages, followed by [ENTER]:"
-read -r infoWebhook
-read -r infoWebhook
-if [ -z "$infoWebhook" ] ; then
-    echo "Info webhook can not be empty"
-    exit 1
-fi
-echo "Enter the webhook for error messages, followed by [ENTER]:"
-read -r errorWebhook
-if [ -z "$errorWebhook" ] ; then
-    echo "Error webhook can not be empty"
-    exit 1
-fi
-
 sudo mkdir -p /etc/server-updater
 
 cat << EOF | sudo tee /etc/server-updater/server-updater.env > /dev/null
-WEBHOOK_URL_INFO=$infoWebhook
-WEBHOOK_URL_ERROR=$errorWebhook
+WEBHOOK_URL_INFO=
+WEBHOOK_URL_ERROR=
 EOF
 
 sudo wget -O /usr/local/bin/server-updater https://github.com/0xFEEDC0DE-dev/server-updater/releases/download/0.0.1/server-updater_0.0.1_linux_amd64
