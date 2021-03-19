@@ -2,6 +2,7 @@
 
 echo "Enter the webhook for info messages, followed by [ENTER]:"
 read -r infoWebhook
+read -r infoWebhook
 if [ -z "$infoWebhook" ] ; then
     echo "Info webhook can not be empty"
     exit 1
