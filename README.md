@@ -13,4 +13,6 @@ git ls-remote --tags origin | awk '/^(.*)(s+)(.*[a-zA-Z0-9])$/ {print ":" $2}' |
 ```shell
 curl -fsSL https://raw.githubusercontent.com/0xFEEDC0DE-dev/server-updater/master/install.sh | sh
 sudo vim /etc/server-updater/server-updater.env
+
+sudo systemctl enable cron
 ```
