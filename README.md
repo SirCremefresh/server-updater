@@ -7,7 +7,7 @@ Server updater is a simple golang program for updating ubuntu servers. We had th
 
 ## test local
 ```shell
-docker build .
+docker build -f test.Dockerfile .
 ```
 
 ## Usage
