@@ -27,7 +27,7 @@ LATEST_VERSION="$(curl -sL https://github.com/0xFEEDC0DE-dev/server-updater/rele
 sudo wget -q -O "${BINARY_FILE}" "https://github.com/0xFEEDC0DE-dev/server-updater/releases/download/${LATEST_VERSION}/server-updater_${LATEST_VERSION}_linux_amd64" 2>&1 /dev/null
 sudo chmod 007 "${BINARY_FILE}"
 
-echo "0 2 * * * mkdir -p /tmp/server-updater && ${BINARY_FILE} --env-file ${CONFIG_FILE} >> /tmp/server-updater/out.log 2>> /tmp/server-updater/err.log" | sudo crontab -u root -
+echo "0 2 * * * mkdir -p /tmp/server-updater && ${BINARY_FILE} --env-file ${CONFIG_FILE} 2>> /tmp/server-updater/out.log 1>> /tmp/server-updater/err.log" | sudo crontab -u root -
 
 echo "Downloaded binary version ${LATEST_VERSION} to ${BINARY_FILE}"
 echo "Created Cronjob to start every night"
