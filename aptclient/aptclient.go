@@ -54,7 +54,7 @@ func (apt *AptClient) Upgrade() error {
 
 	cmdUpgrade := &exec.Cmd{
 		Path:   apt.aptGetExecutable,
-		Args:   []string{apt.aptGetExecutable, "-y", "upgrade"},
+		Args:   []string{apt.aptGetExecutable, "-y", "--with-new-pkgs", "upgrade"},
 		Stdout: &out,
 		Stderr: &outErr,
 		Env:    []string{"DEBIAN_FRONTEND=noninteractive"},
