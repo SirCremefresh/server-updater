@@ -49,8 +49,7 @@ func loadDotenvOrFail() {
 
 func main() {
 	start := time.Now()
-	fmt.Println(startScreen)
-	fmt.Printf("version: %s(%s) built: %s\n", version, commit, buildDate)
+	log.Printf("\n%s\nversion: %s(%s) built: %s\n", startScreen, version, commit, buildDate)
 
 	loadDotenvOrFail()
 
