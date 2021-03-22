@@ -16,14 +16,12 @@ const (
 	Error
 )
 
-// AptClient is cool
 type DiscordClient struct {
 	botName         string
 	errorWebhookURL string
 	infoWebhookURL  string
 }
 
-// New is cool
 func New(botName, errorWebhookURL, infoWebhookURL string) *DiscordClient {
 	return &DiscordClient{
 		botName:         botName,
@@ -33,19 +31,19 @@ func New(botName, errorWebhookURL, infoWebhookURL string) *DiscordClient {
 }
 
 func (client *DiscordClient) LogFatalIgnoreError(message string) {
-	//	err := client.Send(message, Error)
-	//	if err != nil {
-	//		log.Printf("error while sending discord message. err: %v\n", err)
-	//	}
+	err := client.Send(message, Error)
+	if err != nil {
+		log.Printf("error while sending discord message. err: %v\n", err)
+	}
 	log.Fatalf("error: %s", message)
 }
 
 func (client *DiscordClient) LogInfoIgnoreError(message string) {
 	log.Printf("info: %s\n", message)
-	//	err := client.Send(message, Info)
-	//	if err != nil {
-	//		log.Printf("error while sending discord message. err: %v\n", err)
-	//	}
+	err := client.Send(message, Info)
+	if err != nil {
+		log.Printf("error while sending discord message. err: %v\n", err)
+	}
 }
 
 func (client *DiscordClient) Send(message string, severity Severity) error {
