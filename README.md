@@ -1,5 +1,5 @@
 # server-updater
-![build state](https://img.shields.io/github/checks-status/0xFEEDC0DE-dev/server-updater/master?style=flat-square)
+![build state](https://img.shields.io/github/workflow/status/0xFEEDC0DE-dev/server-updater/Main?style=flat-square)
 ![version](https://img.shields.io/github/v/tag/0xFEEDC0DE-dev/server-updater?sort=semver&style=flat-square)
 ![go version](https://img.shields.io/github/go-mod/go-version/0xFEEDC0DE-dev/server-updater?style=flat-square)
 
