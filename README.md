@@ -2,6 +2,7 @@
 ![build state](https://img.shields.io/github/workflow/status/0xFEEDC0DE-dev/server-updater/Main?style=flat-square)
 ![version](https://img.shields.io/github/v/tag/0xFEEDC0DE-dev/server-updater?sort=semver&style=flat-square)
 ![go version](https://img.shields.io/github/go-mod/go-version/0xFEEDC0DE-dev/server-updater?style=flat-square)
+![license](https://img.shields.io/github/license/0xFEEDC0DE-dev/server-updater?style=flat-square)
 
 Server updater is a simple golang program for updating ubuntu servers. We had the problem that our monitoring system is just for our applications running in kubernetes. But we didn't want to escape a container to upgrade the server and we also didn't want to create a bash script where we wouldn't be notified of failures. So we created this program it wil run apt{update,upgrade,autoremove} and then notify failure or success with a Discord webhook.
 
