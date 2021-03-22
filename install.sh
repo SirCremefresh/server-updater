@@ -8,8 +8,8 @@ if [ -f "$CONFIG_FILE" ]; then
 else 
     sudo mkdir -p /etc/server-updater
     cat << EOF | sudo tee "$CONFIG_FILE" > /dev/null
-    WEBHOOK_URL_INFO=
-    WEBHOOK_URL_ERROR=
+WEBHOOK_URL_INFO=
+WEBHOOK_URL_ERROR=
 EOF
     sudo chmod 006 "${CONFIG_FILE}"
 
