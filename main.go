@@ -87,9 +87,8 @@ func isRebootRequired(discord *discordclient.DiscordClient) bool {
 	if _, err := os.Stat("/var/run/reboot-required"); err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			return false
-		} else {
-			discord.LogFatalIgnoreError(fmt.Sprintf("could not read \"/var/run/reboot-required\" to check if restart is required. but update/upgrade/autoremove run without a problem. err: %v", err))
 		}
+		discord.LogFatalIgnoreError(fmt.Sprintf("could not read \"/var/run/reboot-required\" to check if restart is required. but update/upgrade/autoremove run without a problem. err: %v", err))
 	}
 	return true
 }
