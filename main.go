@@ -1,16 +1,26 @@
 package main
 
 import (
+	_ "embed"
 	"errors"
 	"flag"
 	"fmt"
 	"log"
 	"os"
+	"time"
+
 	"server-updater/aptclient"
 	"server-updater/discordclient"
 
 	"github.com/joho/godotenv"
 )
+
+//go:embed start-screen.txt
+var startScreen string
+
+var version = "unset"
+var commit = "unset"
+var buildDate = "unset"
 
 func getEnvOrFail(envName string) string {
 	value := os.Getenv(envName)
@@ -38,6 +48,10 @@ func loadDotenvOrFail() {
 }
 
 func main() {
+	start := time.Now()
+	fmt.Println(startScreen)
+	fmt.Printf("version: %s(%s) built: %s\n", version, commit, buildDate)
+
 	loadDotenvOrFail()
 
 	webhookURLInfo := getEnvOrFail("WEBHOOK_URL_INFO")
@@ -52,7 +66,7 @@ func main() {
 		discord.LogFatalIgnoreError(fmt.Sprintf("could not update. err: %v", err))
 	}
 	if updateCount == 0 {
-		discord.LogInfoIgnoreError("checked for updates but no packages need to be updated. bye :)")
+		discord.LogInfoIgnoreError(fmt.Sprintf("checked for updates but no packages need to be updated. reboot required: %t", isRebootRequired(discord)))
 		return
 	}
 	log.Printf("%d packages need to be updated", updateCount)
@@ -67,20 +81,20 @@ func main() {
 		discord.LogFatalIgnoreError(fmt.Sprintf("could not autoremove. err: %v", err))
 	}
 
-	rebootRequired := false
+	rebootRequired := isRebootRequired(discord)
+
+	discord.LogInfoIgnoreError(fmt.Sprintf("upgraded %d packages. reboot required: %t. execution time: %s", updateCount, rebootRequired, time.Since(start)))
+	log.Println("finished server-update")
+}
+
+func isRebootRequired(discord *discordclient.DiscordClient) bool {
 	log.Println("start: reboot check")
 	if _, err := os.Stat("/var/run/reboot-required"); err != nil {
 		if errors.Is(err, os.ErrNotExist) {
-			log.Println("reboot is not required")
+			return false
 		} else {
 			discord.LogFatalIgnoreError(fmt.Sprintf("could not read \"/var/run/reboot-required\" to check if restart is required. but update/upgrade/autoremove run without a problem. err: %v", err))
 		}
-	} else {
-		log.Println("reboot is required")
-		rebootRequired = true
 	}
-
-	discord.LogInfoIgnoreError(fmt.Sprintf("upgraded %d packages. reboot required: %t", updateCount, rebootRequired))
-	log.Println("finished node-update")
-
+	return true
 }
