@@ -65,10 +65,6 @@ func main() {
 	if err != nil {
 		discord.LogFatalIgnoreError(fmt.Sprintf("could not update. err: %v", err))
 	}
-	if updateCount == 0 {
-		discord.LogInfoIgnoreError(fmt.Sprintf("checked for updates but no packages need to be updated. reboot required: %t", isRebootRequired(discord)))
-		return
-	}
 	log.Printf("%d packages need to be updated", updateCount)
 
 	log.Println("start: upgrade")
