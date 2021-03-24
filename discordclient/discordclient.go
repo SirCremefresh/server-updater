@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strings"
 )
 
 type Severity int
@@ -83,18 +84,24 @@ func (client *DiscordClient) Send(message string, severity Severity) error {
 
 func chunkString(s string, chunkSize int) []string {
 	var chunks []string
-	runes := []rune(s)
 
-	if len(runes) == 0 {
+	if len(s) == 0 {
 		return []string{s}
 	}
 
-	for i := 0; i < len(runes); i += chunkSize {
+	for i := 0; i < len(s); i += chunkSize {
 		nn := i + chunkSize
-		if nn > len(runes) {
-			nn = len(runes)
+		if nn > len(s) {
+			nn = len(s)
 		}
-		chunks = append(chunks, string(runes[i:nn]))
+		substring := string(s[i:nn])
+
+		index := strings.LastIndex(substring, "\n")
+		if index != -1 && len(s) > nn {
+			substring = string(substring[:index])
+			i = i - ((nn - i) - (index + 1))
+		}
+		chunks = append(chunks, substring)
 	}
 	return chunks
 }
