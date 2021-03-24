@@ -67,7 +67,8 @@ func main() {
 	log.Printf("%d packages need to be updated", updateCount)
 
 	log.Println("start: upgrade")
-	if err := apt.Upgrade(); err != nil {
+	upgradeInfo, err := apt.Upgrade()
+	if err != nil {
 		discord.LogFatalIgnoreError(fmt.Sprintf("could not upgrade. err: %v", err))
 	}
 
@@ -78,7 +79,9 @@ func main() {
 
 	rebootRequired := isRebootRequired(discord)
 
-	discord.LogInfoIgnoreError(fmt.Sprintf("upgraded %d packages. reboot required: %t. execution time: %s", updateCount, rebootRequired, time.Since(start)))
+	discord.LogInfoIgnoreError(
+		fmt.Sprintf("reboot required: %t, execution time: %s. %s\n",
+			rebootRequired, time.Since(start), upgradeInfo))
 	log.Println("finished server-update")
 }
 

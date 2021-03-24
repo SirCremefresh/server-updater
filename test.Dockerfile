@@ -4,4 +4,10 @@ WORKDIR /app
 
 COPY ./ .
 RUN go build
-RUN ./server-updater --env-file server-updater-config.env
+
+FROM python:3.9.0rc2-buster
+WORKDIR /app
+
+COPY ./.env ./server-updater-config.env
+COPY --from=builder /app/server-updater ./
+CMD ["./server-updater", "--env-file", "server-updater-config.env"]
