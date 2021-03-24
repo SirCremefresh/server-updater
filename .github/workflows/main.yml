@@ -25,10 +25,10 @@ jobs:
     - name: Build
       run: go build
     
-    - name: Build
+    - name: Test
       run: go test ./... -v
 
-    - name: golangci-lint
+    - name: Golangci lint
       uses: golangci/golangci-lint-action@v2
       with:
           # Optional: if set to true then the action will use pre-installed Go.
