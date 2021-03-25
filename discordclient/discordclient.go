@@ -89,17 +89,18 @@ func chunkString(s string, chunkSize int) []string {
 		return []string{s}
 	}
 
-	for i := 0; i < len(s); i += chunkSize {
-		nn := i + chunkSize
-		if nn > len(s) {
-			nn = len(s)
+	for start := 0; start < len(s); start += chunkSize {
+		end := start + chunkSize
+		if end > len(s) {
+			end = len(s)
 		}
-		substring := string(s[i:nn])
+		substring := string(s[start:end])
 
 		index := strings.LastIndex(substring, "\n")
-		if index != -1 && len(s) > nn {
+		if index != -1 && len(s) > end {
 			substring = string(substring[:index])
-			i = i - ((nn - i) - (index + 1))
+			length := end - start
+			start -= length - index - 1
 		}
 		chunks = append(chunks, substring)
 	}
