@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"strings"
 )
 
 type Severity int
@@ -82,27 +81,53 @@ func (client *DiscordClient) Send(message string, severity Severity) error {
 	return nil
 }
 
-func chunkString(s string, chunkSize int) []string {
-	var chunks []string
+func chunkString(text string, size int) []string {
+	textLength := len(text)
 
-	if len(s) == 0 {
-		return []string{s}
+	if textLength <= size {
+		return []string{text}
 	}
 
-	for start := 0; start < len(s); start += chunkSize {
-		end := start + chunkSize
-		if end > len(s) {
-			end = len(s)
-		}
-		substring := string(s[start:end])
+	var lines []string
 
-		index := strings.LastIndex(substring, "\n")
-		if index != -1 && len(s) > end {
-			substring = string(substring[:index])
-			length := end - start
-			start -= length - index - 1
+	for start := 0; start < textLength; {
+		index := lastIndexOf(text, '\n', start+1, size)
+
+		end := 0
+		if index == -1 {
+			end = min(textLength, start+size)
+		} else {
+			end = index
 		}
-		chunks = append(chunks, substring)
+
+		lines = append(lines, text[start:end])
+
+		if index == -1 {
+			start = end
+		} else {
+			start = end + 1
+		}
 	}
-	return chunks
+
+	return lines
+}
+
+func lastIndexOf(text string, character byte, index int, count int) int {
+	result := -1
+	length := min(len(text), index+count)
+
+	for ; index < length; index += 1 {
+		if text[index] == character {
+			result = index
+		}
+	}
+
+	return result
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }

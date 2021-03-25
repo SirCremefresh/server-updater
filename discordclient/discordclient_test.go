@@ -24,11 +24,12 @@ func TestChunkString(t *testing.T) {
 			size: 3,
 			in:   "a\naaaa",
 			out:  []string{"a", "aaa", "a"},
-		}, {
+		},
+		{
 			name: "long",
 			size: 3,
 			in:   "1\n23456\n78\n\n9",
-			out:  []string{"1", "234", "56", "78", "\n9"},
+			out:  []string{"1", "234", "56", "78\n", "9"},
 		},
 		{
 			name: "short newline break",
@@ -50,7 +51,7 @@ func TestChunkString(t *testing.T) {
 			chunked := chunkString(tt.in, tt.size)
 
 			if !reflect.DeepEqual(tt.out, chunked) {
-				t.Errorf("got %+v, want %+v", chunked, tt.out)
+				t.Errorf("got %+v, want %+v", strings.Join(chunked, ","), strings.Join(tt.out, ","))
 			}
 		})
 	}
@@ -58,7 +59,7 @@ func TestChunkString(t *testing.T) {
 
 func TestChunkStringLong(t *testing.T) {
 	chunked := chunkString(strings.Repeat("aaaaaaaaaaaaaaaaaaa\naaaaaaaaaaaaaaaaaaaaa", 40000), 2000)
-	if len(chunked) != 834 {
-		t.Errorf("expected len 834 but was %d", len(chunked))
+	if len(chunked) != 835 {
+		t.Errorf("expected len 835 but was %d", len(chunked))
 	}
 }
