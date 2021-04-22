@@ -165,7 +165,7 @@ func (apt *AptClient) Update() (int64, error) {
 		return 0, nil
 	}
 
-	updateCountRegex := regexp.MustCompile(`\n(\d+)\spackages\scan\sbe\supgraded`)
+	updateCountRegex := regexp.MustCompile(`\n(\d+)\spackages?\scan\sbe\supgraded`)
 	findings := updateCountRegex.FindStringSubmatch(outString)
 	if len(findings) != 2 {
 		return -1, fmt.Errorf("could not find update count number in output. out: %s, regex: %s", out.String(), updateCountRegex.String())
