@@ -5,7 +5,7 @@ WORKDIR /app
 COPY ./ .
 RUN go build
 
-FROM python:3.9.5-buster
+FROM python:3.11.4-buster
 WORKDIR /app
 
 COPY ./.env ./server-updater-config.env
