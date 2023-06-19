@@ -1,4 +1,4 @@
-FROM docker.io/library/golang:1.16-buster as builder
+FROM docker.io/library/golang:1.20-buster as builder
 LABEL maintainer="donato@wolfisberg.dev"
 WORKDIR /app
 
